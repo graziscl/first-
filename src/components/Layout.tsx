@@ -19,21 +19,23 @@ const abas = [
 export default function Layout() {
   return (
     <div className="flex min-h-screen flex-col bg-cream">
-      <header className="sticky top-0 z-20 flex items-center justify-between border-b border-lilac-100 bg-cream/95 px-4 py-3 backdrop-blur">
+      <header className="sticky top-0 z-20 flex items-center justify-between border-b border-sand-200 bg-cream/90 px-4 py-3 backdrop-blur-md">
         <div className="flex items-center gap-2">
-          <span className="text-2xl">🧶</span>
-          <span className="text-lg font-bold text-ink-800">PontoCerto</span>
+          <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-rose-500 text-base shadow-sm shadow-rose-500/30">
+            🧶
+          </span>
+          <span className="text-lg font-extrabold tracking-tight text-ink-800">PontoCerto</span>
         </div>
         <NavLink
           to="/configuracoes"
           className={({ isActive }) =>
-            `rounded-full p-2 transition ${
-              isActive ? "bg-lilac-100 text-lilac-700" : "text-ink-400 hover:bg-lilac-50 hover:text-lilac-600"
+            `rounded-xl p-2 transition ${
+              isActive ? "bg-rose-50 text-rose-600" : "text-ink-400 hover:bg-sand-100 hover:text-ink-700"
             }`
           }
           aria-label="Configurações"
         >
-          <IconConfig className="h-6 w-6" />
+          <IconConfig className="h-5 w-5" />
         </NavLink>
       </header>
 
@@ -41,7 +43,7 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-lilac-100 bg-white/95 backdrop-blur">
+      <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-sand-200 bg-white/90 shadow-[0_-4px_20px_-8px_rgba(43,36,32,0.12)] backdrop-blur-md">
         <div className="mx-auto flex max-w-lg items-stretch justify-between px-1 py-1">
           {abas.map(({ to, label, icon: Icon, end }) => (
             <NavLink
@@ -49,8 +51,8 @@ export default function Layout() {
               to={to}
               end={end}
               className={({ isActive }) =>
-                `flex flex-1 flex-col items-center gap-0.5 rounded-2xl px-2 py-2 text-[11px] font-medium transition ${
-                  isActive ? "bg-rose-100 text-rose-600" : "text-ink-400 hover:text-rose-500"
+                `flex flex-1 flex-col items-center gap-0.5 rounded-xl px-2 py-2 text-[11px] font-semibold transition ${
+                  isActive ? "bg-rose-50 text-rose-600" : "text-ink-400 hover:text-rose-500"
                 }`
               }
             >

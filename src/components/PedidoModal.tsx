@@ -132,7 +132,7 @@ export default function PedidoModal({ aberto, onFechar, pedido }: PedidoModalPro
                   value={form.clienteNome}
                   onChange={(e) => setForm({ ...form, clienteNome: e.target.value })}
                   placeholder="Ex: Maria Silva"
-                  className="w-full rounded-2xl border border-lilac-200 bg-lilac-50/40 px-4 py-2.5 text-ink-800 outline-none focus:border-lilac-400 focus:ring-2 focus:ring-lilac-200"
+                  className="w-full rounded-2xl border border-sand-300 bg-sand-50 px-4 py-2.5 text-ink-800 outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
                 />
               </div>
               <div>
@@ -142,7 +142,7 @@ export default function PedidoModal({ aberto, onFechar, pedido }: PedidoModalPro
                   value={form.clienteContato}
                   onChange={(e) => setForm({ ...form, clienteContato: e.target.value })}
                   placeholder="(11) 99999-0000"
-                  className="w-full rounded-2xl border border-lilac-200 bg-lilac-50/40 px-4 py-2.5 text-ink-800 outline-none focus:border-lilac-400 focus:ring-2 focus:ring-lilac-200"
+                  className="w-full rounded-2xl border border-sand-300 bg-sand-50 px-4 py-2.5 text-ink-800 outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
                 />
               </div>
             </div>
@@ -152,25 +152,25 @@ export default function PedidoModal({ aberto, onFechar, pedido }: PedidoModalPro
                 <label className="block text-sm font-medium text-ink-700">Peças encomendadas</label>
                 <button
                   onClick={adicionarItem}
-                  className="flex items-center gap-1 rounded-full bg-lilac-100 px-3 py-1 text-xs font-semibold text-lilac-700 hover:bg-lilac-200"
+                  className="flex items-center gap-1 rounded-full bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-600 hover:bg-rose-100"
                 >
                   <IconMais className="h-3.5 w-3.5" /> Adicionar peça
                 </button>
               </div>
 
               {form.itens.length === 0 && (
-                <p className="rounded-2xl bg-lilac-50/60 px-3 py-4 text-center text-xs text-ink-400">
+                <p className="rounded-2xl border border-dashed border-sand-300 bg-sand-50 px-3 py-4 text-center text-xs text-ink-400">
                   Nenhuma peça adicionada ainda
                 </p>
               )}
 
               <div className="space-y-2">
                 {form.itens.map((item, index) => (
-                  <div key={index} className="flex items-center gap-2 rounded-2xl border border-lilac-100 p-2">
+                  <div key={index} className="flex items-center gap-2 rounded-2xl border border-sand-200 p-2">
                     <select
                       value={item.modeloId}
                       onChange={(e) => trocarModeloDoItem(index, e.target.value)}
-                      className="min-w-0 flex-1 rounded-xl border border-lilac-200 bg-white px-2 py-1.5 text-sm text-ink-800 outline-none"
+                      className="min-w-0 flex-1 rounded-xl border border-sand-300 bg-white px-2 py-1.5 text-sm text-ink-800 outline-none"
                     >
                       {modelos.map((m) => (
                         <option key={m.id} value={m.id}>
@@ -185,7 +185,7 @@ export default function PedidoModal({ aberto, onFechar, pedido }: PedidoModalPro
                       onChange={(e) =>
                         atualizarItem(index, { quantidade: Math.max(1, Number(e.target.value) || 1) })
                       }
-                      className="w-14 rounded-xl border border-lilac-200 bg-white px-2 py-1.5 text-center text-sm text-ink-800 outline-none"
+                      className="w-14 rounded-xl border border-sand-300 bg-white px-2 py-1.5 text-center text-sm text-ink-800 outline-none"
                     />
                     <span className="w-20 shrink-0 text-right text-sm font-medium text-ink-700">
                       {formatarMoeda(item.precoUnitario * item.quantidade)}
@@ -209,7 +209,7 @@ export default function PedidoModal({ aberto, onFechar, pedido }: PedidoModalPro
                   type="date"
                   value={form.dataPedido}
                   onChange={(e) => setForm({ ...form, dataPedido: e.target.value })}
-                  className="w-full rounded-2xl border border-lilac-200 bg-lilac-50/40 px-3 py-2.5 text-sm text-ink-800 outline-none focus:border-lilac-400 focus:ring-2 focus:ring-lilac-200"
+                  className="w-full rounded-2xl border border-sand-300 bg-sand-50 px-3 py-2.5 text-sm text-ink-800 outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
                 />
               </div>
               <div>
@@ -218,7 +218,7 @@ export default function PedidoModal({ aberto, onFechar, pedido }: PedidoModalPro
                   type="date"
                   value={form.prazoEntrega}
                   onChange={(e) => setForm({ ...form, prazoEntrega: e.target.value })}
-                  className="w-full rounded-2xl border border-lilac-200 bg-lilac-50/40 px-3 py-2.5 text-sm text-ink-800 outline-none focus:border-lilac-400 focus:ring-2 focus:ring-lilac-200"
+                  className="w-full rounded-2xl border border-sand-300 bg-sand-50 px-3 py-2.5 text-sm text-ink-800 outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
                 />
               </div>
             </div>
@@ -229,7 +229,7 @@ export default function PedidoModal({ aberto, onFechar, pedido }: PedidoModalPro
                 <select
                   value={form.status}
                   onChange={(e) => setForm({ ...form, status: e.target.value as StatusPedido })}
-                  className="w-full rounded-2xl border border-lilac-200 bg-lilac-50/40 px-4 py-2.5 text-ink-800 outline-none focus:border-lilac-400 focus:ring-2 focus:ring-lilac-200"
+                  className="w-full rounded-2xl border border-sand-300 bg-sand-50 px-4 py-2.5 text-ink-800 outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
                 >
                   {(Object.keys(statusLabel) as StatusPedido[]).map((s) => (
                     <option key={s} value={s}>
@@ -247,7 +247,7 @@ export default function PedidoModal({ aberto, onFechar, pedido }: PedidoModalPro
                 onChange={(e) => setForm({ ...form, observacoes: e.target.value })}
                 placeholder="Ex: cor rosa claro, entregar embrulhado para presente"
                 rows={2}
-                className="w-full resize-none rounded-2xl border border-lilac-200 bg-lilac-50/40 px-4 py-2.5 text-sm text-ink-800 outline-none focus:border-lilac-400 focus:ring-2 focus:ring-lilac-200"
+                className="w-full resize-none rounded-2xl border border-sand-300 bg-sand-50 px-4 py-2.5 text-sm text-ink-800 outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
               />
             </div>
 
@@ -260,7 +260,7 @@ export default function PedidoModal({ aberto, onFechar, pedido }: PedidoModalPro
               {pedido && (
                 <button
                   onClick={excluir}
-                  className="rounded-2xl border border-red-200 px-4 py-3 font-semibold text-red-500 transition hover:bg-red-50"
+                  className="rounded-2xl border border-red-200 px-4 py-3 font-semibold text-red-500 transition hover:bg-red-50 active:scale-[0.98]"
                   aria-label="Excluir pedido"
                 >
                   <IconLixeira className="h-5 w-5" />
@@ -269,7 +269,7 @@ export default function PedidoModal({ aberto, onFechar, pedido }: PedidoModalPro
               <button
                 onClick={salvar}
                 disabled={!podeSalvar}
-                className="flex-1 rounded-2xl bg-rose-500 py-3 font-semibold text-white transition hover:bg-rose-600 disabled:opacity-40"
+                className="flex-1 rounded-2xl bg-rose-500 py-3 font-semibold text-white shadow-sm shadow-rose-500/30 transition hover:bg-rose-600 active:scale-[0.98] disabled:opacity-40"
               >
                 Salvar pedido
               </button>

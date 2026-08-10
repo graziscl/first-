@@ -18,13 +18,13 @@ export default function ConfiguracoesPage() {
 
   return (
     <div className="mx-auto max-w-lg px-4 py-4">
-      <h1 className="mb-1 text-xl font-bold text-ink-800">Configurações</h1>
+      <h1 className="mb-1 text-xl font-extrabold text-ink-800">Configurações</h1>
       <p className="mb-5 text-sm text-ink-400">
         Ajuste aqui o valor que você quer ganhar por hora de trabalho. Ele é usado para calcular o preço
         sugerido dos seus modelos.
       </p>
 
-      <div className="rounded-3xl border border-lilac-100 bg-white p-5 shadow-sm">
+      <div className="rounded-2xl border border-sand-200 bg-white p-5 shadow-sm shadow-ink-800/[0.03]">
         <label className="mb-1 block text-sm font-medium text-ink-700">Valor da sua hora (R$)</label>
         <input
           type="number"
@@ -33,19 +33,19 @@ export default function ConfiguracoesPage() {
           step="0.5"
           value={valor}
           onChange={(e) => setValor(e.target.value)}
-          className="w-full rounded-2xl border border-lilac-200 bg-lilac-50/40 px-4 py-2.5 text-lg text-ink-800 outline-none focus:border-lilac-400 focus:ring-2 focus:ring-lilac-200"
+          className="w-full rounded-2xl border border-sand-300 bg-sand-50 px-4 py-2.5 text-lg font-semibold tabular-nums text-ink-800 outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
         />
         <p className="mt-2 text-xs text-ink-400">Hoje: {formatarMoeda(valorHora)} por hora</p>
 
         <button
           onClick={salvar}
-          className="mt-4 w-full rounded-2xl bg-rose-500 py-3 font-semibold text-white transition hover:bg-rose-600"
+          className="mt-4 w-full rounded-2xl bg-rose-500 py-3 font-semibold text-white shadow-sm shadow-rose-500/30 transition hover:bg-rose-600 active:scale-[0.98]"
         >
           {salvo ? "Salvo! ✓" : "Salvar"}
         </button>
       </div>
 
-      <div className="mt-4 rounded-3xl bg-peach-50 p-4 text-sm text-ink-600">
+      <div className="mt-4 rounded-2xl border border-peach-100 bg-peach-50 p-4 text-sm text-ink-600">
         💡 Dica: pense em quanto você gostaria de ganhar por hora considerando seu tempo, esforço e
         experiência — não precisa ser o salário mínimo dividido pelas horas!
       </div>

@@ -47,11 +47,11 @@ export default function ClientesPage() {
 
   return (
     <div className="mx-auto max-w-lg px-4 py-4">
-      <h1 className="mb-1 text-xl font-bold text-ink-800">Seus clientes</h1>
+      <h1 className="mb-1 text-xl font-extrabold text-ink-800">Seus clientes</h1>
       <p className="mb-4 text-sm text-ink-400">Histórico de compras, montado a partir dos seus pedidos.</p>
 
       {clientes.length === 0 && (
-        <div className="rounded-3xl bg-lilac-50 p-6 text-center text-ink-600">
+        <div className="rounded-2xl border border-dashed border-sand-300 bg-sand-50 p-6 text-center text-ink-600">
           Assim que você criar pedidos, seus clientes vão aparecer aqui.
         </div>
       )}
@@ -61,7 +61,7 @@ export default function ClientesPage() {
           <button
             key={cliente.chave}
             onClick={() => setClienteSelecionado(cliente)}
-            className="w-full rounded-2xl border border-lilac-100 bg-white p-3 text-left shadow-sm transition hover:border-lilac-300"
+            className="w-full rounded-2xl border border-sand-200 bg-white p-3 text-left shadow-sm shadow-ink-800/[0.03] transition hover:border-rose-200 hover:shadow-md hover:shadow-ink-800/[0.06]"
           >
             <div className="flex items-start justify-between gap-2">
               <div>
@@ -105,10 +105,10 @@ export default function ClientesPage() {
                   .slice()
                   .sort((a, b) => b.dataPedido.localeCompare(a.dataPedido))
                   .map((pedido) => (
-                    <div key={pedido.id} className="rounded-2xl border border-lilac-100 p-3">
+                    <div key={pedido.id} className="rounded-2xl border border-sand-200 p-3">
                       <div className="flex items-center justify-between">
                         <span className="text-xs text-ink-400">{formatarData(pedido.dataPedido)}</span>
-                        <span className="rounded-full bg-lilac-50 px-2 py-0.5 text-[11px] font-medium text-lilac-600">
+                        <span className="rounded-full bg-lilac-50 px-2 py-0.5 text-[11px] font-semibold text-lilac-600">
                           {statusLabel[pedido.status]}
                         </span>
                       </div>

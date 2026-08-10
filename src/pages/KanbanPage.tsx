@@ -7,21 +7,21 @@ import { formatarData, urgenciaDoPrazo } from "../utils/dates";
 import { IconMais } from "../components/icons";
 import PedidoModal from "../components/PedidoModal";
 
-const colunas: { id: StatusPedido; titulo: string; corPonto: string }[] = [
-  { id: "encomendado", titulo: "Encomendado", corPonto: "bg-lilac-400" },
-  { id: "producao", titulo: "Em Produção", corPonto: "bg-peach-500" },
-  { id: "pronto", titulo: "Pronto", corPonto: "bg-mint-500" },
-  { id: "entregue", titulo: "Entregue", corPonto: "bg-rose-400" },
+const colunas: { id: StatusPedido; titulo: string; corPonto: string; corTopo: string }[] = [
+  { id: "encomendado", titulo: "Encomendado", corPonto: "bg-lilac-500", corTopo: "bg-lilac-400" },
+  { id: "producao", titulo: "Em Produção", corPonto: "bg-peach-500", corTopo: "bg-peach-400" },
+  { id: "pronto", titulo: "Pronto", corPonto: "bg-mint-500", corTopo: "bg-mint-400" },
+  { id: "entregue", titulo: "Entregue", corPonto: "bg-stone-500", corTopo: "bg-stone-300" },
 ];
 
 function corDoCard(pedido: Pedido) {
   if (pedido.status === "entregue") {
-    return "border-rose-100 bg-rose-50/60";
+    return "border-stone-200 bg-stone-50/70";
   }
   const urgencia = urgenciaDoPrazo(pedido.prazoEntrega);
   if (urgencia === "atrasado") return "border-red-300 bg-red-50";
   if (urgencia === "proximo") return "border-amber-300 bg-amber-50";
-  return "border-lilac-100 bg-white";
+  return "border-sand-200 bg-white";
 }
 
 function PedidoCard({ pedido, index, onClick }: { pedido: Pedido; index: number; onClick: () => void }) {
@@ -34,7 +34,7 @@ function PedidoCard({ pedido, index, onClick }: { pedido: Pedido; index: number;
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           onClick={onClick}
-          className={`mb-3 cursor-pointer rounded-2xl border p-3 shadow-sm transition ${corDoCard(pedido)} ${
+          className={`mb-3 cursor-pointer rounded-2xl border p-3 shadow-sm shadow-ink-800/[0.03] transition hover:shadow-md hover:shadow-ink-800/[0.07] ${corDoCard(pedido)} ${
             snapshot.isDragging ? "rotate-1 shadow-lg" : ""
           }`}
         >
@@ -107,41 +107,44 @@ export default function KanbanPage() {
 
   return (
     <div className="px-4 py-4">
-      <h1 className="mb-3 px-0.5 text-xl font-bold text-ink-800">Seus pedidos</h1>
+      <h1 className="mb-3 px-0.5 text-xl font-extrabold text-ink-800">Seus pedidos</h1>
 
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-4 sm:overflow-visible">
           {colunas.map((coluna) => (
             <div
               key={coluna.id}
-              className="w-[82vw] shrink-0 snap-center rounded-3xl bg-lilac-50/60 p-3 sm:w-auto"
+              className="w-[82vw] shrink-0 snap-center overflow-hidden rounded-2xl border border-sand-200 bg-sand-100/60 sm:w-auto"
             >
-              <div className="mb-2 flex items-center gap-2 px-1">
-                <span className={`h-2.5 w-2.5 rounded-full ${coluna.corPonto}`} />
-                <h2 className="text-sm font-bold text-ink-700">{coluna.titulo}</h2>
-                <span className="ml-auto rounded-full bg-white px-2 py-0.5 text-xs font-medium text-ink-400">
-                  {pedidosPorColuna[coluna.id].length}
-                </span>
+              <div className={`h-1 ${coluna.corTopo}`} />
+              <div className="p-3">
+                <div className="mb-2 flex items-center gap-2 px-1">
+                  <span className={`h-2 w-2 rounded-full ${coluna.corPonto}`} />
+                  <h2 className="text-sm font-bold tracking-tight text-ink-700">{coluna.titulo}</h2>
+                  <span className="ml-auto rounded-full bg-white px-2 py-0.5 text-xs font-semibold tabular-nums text-ink-500 shadow-sm shadow-ink-800/[0.03]">
+                    {pedidosPorColuna[coluna.id].length}
+                  </span>
+                </div>
+                <Droppable droppableId={coluna.id}>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      className={`min-h-[120px] rounded-xl p-1 transition ${
+                        snapshot.isDraggingOver ? "bg-rose-50 ring-2 ring-rose-200" : ""
+                      }`}
+                    >
+                      {pedidosPorColuna[coluna.id].length === 0 && !snapshot.isDraggingOver && (
+                        <p className="px-2 py-6 text-center text-xs text-ink-400">Nenhum pedido aqui</p>
+                      )}
+                      {pedidosPorColuna[coluna.id].map((pedido, index) => (
+                        <PedidoCard key={pedido.id} pedido={pedido} index={index} onClick={() => abrirEdicao(pedido)} />
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
               </div>
-              <Droppable droppableId={coluna.id}>
-                {(provided, snapshot) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                    className={`min-h-[120px] rounded-2xl p-1 transition ${
-                      snapshot.isDraggingOver ? "bg-lilac-100" : ""
-                    }`}
-                  >
-                    {pedidosPorColuna[coluna.id].length === 0 && !snapshot.isDraggingOver && (
-                      <p className="px-2 py-6 text-center text-xs text-ink-400">Nenhum pedido aqui</p>
-                    )}
-                    {pedidosPorColuna[coluna.id].map((pedido, index) => (
-                      <PedidoCard key={pedido.id} pedido={pedido} index={index} onClick={() => abrirEdicao(pedido)} />
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
             </div>
           ))}
         </div>
@@ -149,7 +152,7 @@ export default function KanbanPage() {
 
       <button
         onClick={abrirNovo}
-        className="fixed bottom-24 right-4 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-rose-500 text-white shadow-lg shadow-rose-500/30 transition hover:bg-rose-600 sm:right-[calc(50%-16rem)]"
+        className="fixed bottom-24 right-4 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-rose-500 text-white shadow-lg shadow-rose-500/35 transition hover:bg-rose-600 active:scale-95 sm:right-[calc(50%-16rem)]"
         aria-label="Novo pedido"
       >
         <IconMais className="h-7 w-7" />

@@ -24,8 +24,8 @@ function textoPrazo(pedido: Pedido): { texto: string; classe: string } {
     };
   }
   if (dias === 0) return { texto: "⏰ Entrega é hoje!", classe: "text-amber-600" };
-  if (urgencia === "proximo") return { texto: `⏰ Faltam ${dias} dias`, classe: "text-amber-600" };
-  return { texto: `Faltam ${dias} dias`, classe: "text-ink-400" };
+  if (urgencia === "proximo") return { texto: `⏰ Faltam ${dias} dia${dias === 1 ? "" : "s"}`, classe: "text-amber-600" };
+  return { texto: `Faltam ${dias} dia${dias === 1 ? "" : "s"}`, classe: "text-ink-400" };
 }
 
 export default function PrazosPage() {
@@ -41,11 +41,11 @@ export default function PrazosPage() {
 
   return (
     <div className="mx-auto max-w-lg px-4 py-4">
-      <h1 className="mb-1 text-xl font-bold text-ink-800">Prazos de entrega</h1>
+      <h1 className="mb-1 text-xl font-extrabold text-ink-800">Prazos de entrega</h1>
       <p className="mb-4 text-sm text-ink-400">Pedidos em aberto, do mais urgente para o mais distante.</p>
 
       {pedidosOrdenados.length === 0 && (
-        <div className="rounded-3xl bg-lilac-50 p-6 text-center text-ink-600">
+        <div className="rounded-2xl border border-dashed border-sand-300 bg-sand-50 p-6 text-center text-ink-600">
           Nenhum pedido em aberto no momento. 🎉
         </div>
       )}
@@ -55,12 +55,12 @@ export default function PrazosPage() {
           const { texto, classe } = textoPrazo(pedido);
           const urgencia = urgenciaDoPrazo(pedido.prazoEntrega);
           const borda =
-            urgencia === "atrasado" ? "border-red-300 bg-red-50" : urgencia === "proximo" ? "border-amber-300 bg-amber-50" : "border-lilac-100 bg-white";
+            urgencia === "atrasado" ? "border-red-300 bg-red-50" : urgencia === "proximo" ? "border-amber-300 bg-amber-50" : "border-sand-200 bg-white";
           return (
             <button
               key={pedido.id}
               onClick={() => setPedidoSelecionado(pedido)}
-              className={`w-full rounded-2xl border p-3 text-left shadow-sm transition ${borda}`}
+              className={`w-full rounded-2xl border p-3 text-left shadow-sm shadow-ink-800/[0.03] transition hover:shadow-md hover:shadow-ink-800/[0.06] ${borda}`}
             >
               <div className="flex items-start justify-between gap-2">
                 <div>

@@ -64,7 +64,7 @@ export default function ModelosPage() {
     <div className="mx-auto max-w-lg px-4 py-4">
       <div className="mb-4 flex items-start justify-between gap-3">
         <div>
-          <h1 className="text-xl font-bold text-ink-800">Seus modelos</h1>
+          <h1 className="text-xl font-extrabold text-ink-800">Seus modelos</h1>
           <p className="text-sm text-ink-400">
             Valor da sua hora hoje: <strong className="text-ink-600">{formatarMoeda(valorHora)}</strong>{" "}
             <Link to="/configuracoes" className="text-rose-500 underline underline-offset-2">
@@ -75,20 +75,23 @@ export default function ModelosPage() {
       </div>
 
       {modelos.length === 0 && (
-        <div className="rounded-3xl bg-lilac-50 p-6 text-center text-ink-600">
+        <div className="rounded-2xl border border-dashed border-sand-300 bg-sand-50 p-6 text-center text-ink-600">
           Você ainda não cadastrou nenhum modelo. Toque no botão + para começar!
         </div>
       )}
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {modelos.map((modelo) => (
-          <div key={modelo.id} className="rounded-3xl border border-lilac-100 bg-white p-4 shadow-sm">
+          <div
+            key={modelo.id}
+            className="rounded-2xl border border-sand-200 bg-white p-4 shadow-sm shadow-ink-800/[0.03] transition hover:shadow-md hover:shadow-ink-800/[0.06]"
+          >
             <div className="flex items-start justify-between gap-2">
               <h3 className="font-semibold text-ink-800">{modelo.nome}</h3>
               <div className="flex shrink-0 gap-1">
                 <button
                   onClick={() => abrirEdicao(modelo)}
-                  className="rounded-full p-1.5 text-ink-400 hover:bg-lilac-50 hover:text-lilac-600"
+                  className="rounded-lg p-1.5 text-ink-400 hover:bg-sand-100 hover:text-ink-700"
                   aria-label={`Editar ${modelo.nome}`}
                 >
                   <IconLapis className="h-4 w-4" />
@@ -97,7 +100,7 @@ export default function ModelosPage() {
                   onClick={() => {
                     if (confirm(`Excluir o modelo "${modelo.nome}"?`)) removeModelo(modelo.id);
                   }}
-                  className="rounded-full p-1.5 text-ink-400 hover:bg-rose-50 hover:text-rose-500"
+                  className="rounded-lg p-1.5 text-ink-400 hover:bg-rose-50 hover:text-rose-500"
                   aria-label={`Excluir ${modelo.nome}`}
                 >
                   <IconLixeira className="h-4 w-4" />
@@ -125,7 +128,7 @@ export default function ModelosPage() {
 
       <button
         onClick={abrirNovo}
-        className="fixed bottom-24 right-4 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-rose-500 text-white shadow-lg shadow-rose-500/30 transition hover:bg-rose-600 sm:right-[calc(50%-16rem)]"
+        className="fixed bottom-24 right-4 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-rose-500 text-white shadow-lg shadow-rose-500/35 transition hover:bg-rose-600 active:scale-95 sm:right-[calc(50%-16rem)]"
         aria-label="Novo modelo"
       >
         <IconMais className="h-7 w-7" />
@@ -140,7 +143,7 @@ export default function ModelosPage() {
               value={form.nome}
               onChange={(e) => setForm({ ...form, nome: e.target.value })}
               placeholder="Ex: Sapatinho Ouriço"
-              className="w-full rounded-2xl border border-lilac-200 bg-lilac-50/40 px-4 py-2.5 text-ink-800 outline-none focus:border-lilac-400 focus:ring-2 focus:ring-lilac-200"
+              className="w-full rounded-2xl border border-sand-300 bg-sand-50 px-4 py-2.5 text-ink-800 outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
             />
           </div>
 
@@ -155,7 +158,7 @@ export default function ModelosPage() {
                 value={form.custoMaterial}
                 onChange={(e) => setForm({ ...form, custoMaterial: e.target.value })}
                 placeholder="0,00"
-                className="w-full rounded-2xl border border-lilac-200 bg-lilac-50/40 px-4 py-2.5 text-ink-800 outline-none focus:border-lilac-400 focus:ring-2 focus:ring-lilac-200"
+                className="w-full rounded-2xl border border-sand-300 bg-sand-50 px-4 py-2.5 text-ink-800 outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
               />
             </div>
             <div>
@@ -168,7 +171,7 @@ export default function ModelosPage() {
                 value={form.tempoProducaoHoras}
                 onChange={(e) => setForm({ ...form, tempoProducaoHoras: e.target.value })}
                 placeholder="0"
-                className="w-full rounded-2xl border border-lilac-200 bg-lilac-50/40 px-4 py-2.5 text-ink-800 outline-none focus:border-lilac-400 focus:ring-2 focus:ring-lilac-200"
+                className="w-full rounded-2xl border border-sand-300 bg-sand-50 px-4 py-2.5 text-ink-800 outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
               />
             </div>
           </div>
@@ -182,7 +185,7 @@ export default function ModelosPage() {
               step="1"
               value={form.margemLucro}
               onChange={(e) => setForm({ ...form, margemLucro: e.target.value })}
-              className="w-full rounded-2xl border border-lilac-200 bg-lilac-50/40 px-4 py-2.5 text-ink-800 outline-none focus:border-lilac-400 focus:ring-2 focus:ring-lilac-200"
+              className="w-full rounded-2xl border border-sand-300 bg-sand-50 px-4 py-2.5 text-ink-800 outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
             />
           </div>
 
@@ -197,7 +200,7 @@ export default function ModelosPage() {
           <button
             onClick={salvar}
             disabled={!form.nome.trim()}
-            className="w-full rounded-2xl bg-rose-500 py-3 font-semibold text-white transition hover:bg-rose-600 disabled:opacity-40"
+            className="w-full rounded-2xl bg-rose-500 py-3 font-semibold text-white shadow-sm shadow-rose-500/30 transition hover:bg-rose-600 active:scale-[0.98] disabled:opacity-40"
           >
             Salvar modelo
           </button>
