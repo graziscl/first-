@@ -3,6 +3,7 @@ import { HashRouter, Routes, Route } from "react-router-dom";
 import { useAppStore } from "./store";
 import Layout from "./components/Layout";
 import LoginPage from "./pages/LoginPage";
+import PaywallPage from "./pages/PaywallPage";
 import KanbanPage from "./pages/KanbanPage";
 import ModelosPage from "./pages/ModelosPage";
 import PrazosPage from "./pages/PrazosPage";
@@ -13,6 +14,7 @@ import ConfiguracoesPage from "./pages/ConfiguracoesPage";
 export default function App() {
   const session = useAppStore((s) => s.session);
   const carregando = useAppStore((s) => s.carregando);
+  const assinaturaAtiva = useAppStore((s) => s.assinaturaAtiva);
   const inicializar = useAppStore((s) => s.inicializar);
 
   useEffect(() => {
@@ -29,6 +31,10 @@ export default function App() {
 
   if (!session) {
     return <LoginPage />;
+  }
+
+  if (!assinaturaAtiva) {
+    return <PaywallPage />;
   }
 
   return (

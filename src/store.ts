@@ -40,6 +40,8 @@ interface AppState {
   session: Session | null;
   carregando: boolean;
   erroAuth: string | null;
+  assinaturaAtiva: boolean;
+  verificandoAssinatura: boolean;
 
   settings: Settings;
   modelos: Modelo[];
@@ -51,6 +53,7 @@ interface AppState {
   sair: () => Promise<void>;
   recuperarSenha: (email: string) => Promise<boolean>;
   trocarSenha: (novaSenha: string) => Promise<boolean>;
+  verificarAssinatura: () => Promise<void>;
 
   setValorHora: (valorHora: number) => Promise<void>;
 
@@ -89,17 +92,32 @@ interface AppState {
   removePedido: (id: string) => Promise<void>;
 }
 
-async function carregarDadosDaUsuaria(userId: string, set: (partial: Partial<AppState>) => void) {
-  const [modelosRes, pedidosRes, configRes] = await Promise.all([
+async function buscarAssinaturaAtiva(email: string): Promise<boolean> {
+  const { data } = await supabase
+    .from("assinaturas")
+    .select("status")
+    .eq("email", email.trim().toLowerCase())
+    .maybeSingle();
+  return data?.status === "ativo";
+}
+
+async function carregarDadosDaUsuaria(
+  userId: string,
+  email: string,
+  set: (partial: Partial<AppState>) => void,
+) {
+  const [modelosRes, pedidosRes, configRes, assinaturaAtiva] = await Promise.all([
     supabase.from("modelos").select("*").order("criado_em", { ascending: true }),
     supabase.from("pedidos").select("*").order("criado_em", { ascending: true }),
     supabase.from("configuracoes").select("valor_hora").eq("user_id", userId).maybeSingle(),
+    buscarAssinaturaAtiva(email),
   ]);
 
   set({
     modelos: (modelosRes.data ?? []).map(modeloFromRow),
     pedidos: (pedidosRes.data ?? []).map(pedidoFromRow),
     settings: { valorHora: Number(configRes.data?.valor_hora ?? 15) },
+    assinaturaAtiva,
     carregando: false,
   });
 }
@@ -108,6 +126,8 @@ export const useAppStore = create<AppState>()((set, get) => ({
   session: null,
   carregando: true,
   erroAuth: null,
+  assinaturaAtiva: false,
+  verificandoAssinatura: false,
   settings: { valorHora: 15 },
   modelos: [],
   pedidos: [],
@@ -115,8 +135,8 @@ export const useAppStore = create<AppState>()((set, get) => ({
   inicializar: () => {
     supabase.auth.getSession().then(({ data }) => {
       set({ session: data.session });
-      if (data.session) {
-        carregarDadosDaUsuaria(data.session.user.id, set);
+      if (data.session?.user.email) {
+        carregarDadosDaUsuaria(data.session.user.id, data.session.user.email, set);
       } else {
         set({ carregando: false });
       }
@@ -124,13 +144,27 @@ export const useAppStore = create<AppState>()((set, get) => ({
 
     supabase.auth.onAuthStateChange((_event, session) => {
       set({ session });
-      if (session) {
+      if (session?.user.email) {
         set({ carregando: true });
-        carregarDadosDaUsuaria(session.user.id, set);
+        carregarDadosDaUsuaria(session.user.id, session.user.email, set);
       } else {
-        set({ modelos: [], pedidos: [], settings: { valorHora: 15 }, carregando: false });
+        set({
+          modelos: [],
+          pedidos: [],
+          settings: { valorHora: 15 },
+          assinaturaAtiva: false,
+          carregando: false,
+        });
       }
     });
+  },
+
+  verificarAssinatura: async () => {
+    const email = get().session?.user.email;
+    if (!email) return;
+    set({ verificandoAssinatura: true });
+    const assinaturaAtiva = await buscarAssinaturaAtiva(email);
+    set({ assinaturaAtiva, verificandoAssinatura: false });
   },
 
   entrar: async (email, senha) => {

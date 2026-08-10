@@ -74,3 +74,34 @@ variáveis de ambiente do `.env.local` (`VITE_SUPABASE_URL` e
 Depois do deploy, em **Authentication → URL Configuration** no Supabase,
 atualize a **Site URL** para o endereço público do app — isso garante que
 o link de "esqueci minha senha" volte para o lugar certo.
+
+## Cobrança (Cakto) e liberação de acesso
+
+O acesso ao app é liberado por assinatura: quem não pagou vê uma tela
+pedindo pra assinar em vez do app. Isso funciona assim:
+
+1. **Crie a tabela de assinaturas**: no SQL Editor do Supabase, rode o
+   conteúdo de [`supabase/assinaturas.sql`](supabase/assinaturas.sql).
+2. **Publique a Edge Function**: no painel do Supabase, vá em **Edge
+   Functions → Deploy a new function → Via Editor**, nomeie como
+   `cakto-webhook` e cole o conteúdo de
+   [`supabase/functions/cakto-webhook/index.ts`](supabase/functions/cakto-webhook/index.ts).
+   Não precisa de terminal nem CLI.
+3. **Defina o segredo**: em **Edge Functions → Secrets**, adicione
+   `CAKTO_WEBHOOK_SECRET` com uma senha aleatória que só você conhece.
+4. **Configure o webhook na Cakto**: no painel da Cakto, vá em
+   **Integrações → Webhooks → Adicionar**, cole a URL da função (algo
+   como `https://SEU-PROJETO.supabase.co/functions/v1/cakto-webhook`),
+   selecione o produto e marque os eventos: Compra aprovada, Assinatura
+   criada, Assinatura renovada, Assinatura cancelada, Reembolso,
+   Chargeback e Compra recusada. No campo de segredo/secret do webhook,
+   use o mesmo valor do passo 3.
+5. Atualize `LINK_CHECKOUT` em
+   [`src/pages/PaywallPage.tsx`](src/pages/PaywallPage.tsx) com o link
+   real de checkout do produto na Cakto.
+
+Assim que alguém paga, a Cakto avisa a função, que libera o e-mail da
+compradora na tabela `assinaturas`. Quando ela cria a conta (ou faz
+login) com o mesmo e-mail, o acesso já está liberado. Cancelamento,
+reembolso e chargeback bloqueiam o acesso automaticamente pelo mesmo
+caminho.
