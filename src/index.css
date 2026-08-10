@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Segoe UI", "Nunito", system-ui, -apple-system, sans-serif;
+
+  --color-cream: #fffaf3;
+  --color-cream-dark: #fbf1e4;
+
+  --color-lilac-50: #f5f0fb;
+  --color-lilac-100: #ebe0f6;
+  --color-lilac-300: #cbb3e8;
+  --color-lilac-500: #a680d4;
+  --color-lilac-600: #8f62c4;
+  --color-lilac-700: #714aa0;
+
+  --color-rose-50: #fdf1f3;
+  --color-rose-100: #fbe1e6;
+  --color-rose-300: #f3aebb;
+  --color-rose-500: #e9899e;
+  --color-rose-600: #d96a83;
+
+  --color-mint-50: #eefaf5;
+  --color-mint-100: #d8f2e6;
+  --color-mint-300: #a3ddc4;
+  --color-mint-500: #6dc4a1;
+  --color-mint-600: #4aa886;
+
+  --color-peach-50: #fff4ea;
+  --color-peach-100: #ffe6cc;
+  --color-peach-300: #ffc98c;
+  --color-peach-500: #f7a95c;
+  --color-peach-600: #e08a37;
+
+  --color-ink-50: #faf8f6;
+  --color-ink-400: #9a8b83;
+  --color-ink-600: #6b5c54;
+  --color-ink-700: #52453f;
+  --color-ink-800: #3a312c;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink-800);
+  -webkit-tap-highlight-color: transparent;
+}
+
+* {
+  scrollbar-width: thin;
+}
